@@ -8,7 +8,7 @@ import sklearn
 # Load trained model and columns
 # -----------------------------
 model = joblib.load('heart_Diasease_model.pkl')
-model_columns = joblib.load('heart_Disease_columns.pkl.pkl')
+model_columns = joblib.load('heart_Disease_columns.pkl')  # NOTE: verify this matches the exact filename you saved with joblib.dump
 
 # -----------------------------
 # Page config
@@ -251,25 +251,6 @@ st.markdown("""
         <a href="#">HOW IT WORKS</a>
     </div>
 </div>
-"""
-<div class="navbar">
-
-    <div class="navbar-title" style="display:flex; align-items:center; gap:8px;">
-
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="#E8385C">
-
-            <path d="M12 21s-6.7-4.35-9.3-8.1C.8 10.1 1.4 6.6 4.3 5C6.4 3.8 9 4.3 12 7.2C15 4.3 17.6 3.8 19.7 5C22.6 6.6 23.2 10.1 21.3 12.9C18.7 17.35 12 21 12 21z"/>
-
-        </svg>
-
-        DIABETES PREDICTOR
-
-    </div>
-
-</div>
-"""
-
-""", unsafe_allow_html=True)
 """, unsafe_allow_html=True)
 
 # -----------------------------
@@ -313,21 +294,21 @@ st.markdown('<div class="form-subheading">Input the patient\'s health metrics be
 
 c1, c2, c3, c4 = st.columns(4)
 with c1:
-   Age = st.number_input("🩸 Age", min_value=1, max_value=120, value=45, step=1)
-   Fasting_Blood_Sugar = st.selectbox("🩸 Fasting Blood Sugar > 120 mg/dl", options=[0, 1], format_func=lambda x: "Yes" if x == 1 else "No")
-   ST_Slope = st.selectbox("🩸 Slope of Peak Exercise ST Segment", options=[0, 1, 2])
+    Age = st.number_input("🩸 Age", min_value=1, max_value=120, value=45, step=1)
+    Fasting_Blood_Sugar = st.selectbox("🩸 Fasting Blood Sugar > 120 mg/dl", options=[0, 1], format_func=lambda x: "Yes" if x == 1 else "No")
+    ST_Slope = st.selectbox("🩸 Slope of Peak Exercise ST Segment", options=[0, 1, 2])
 with c2:
     Gender = st.selectbox("🩸 Sex", options=[0, 1], format_func=lambda x: "Male" if x == 1 else "Female")
     Resting_ECG_Result = st.selectbox("🩸 Resting ECG Results", options=[0, 1, 2])
-   Major_Vessels = st.selectbox("🩸 Number of Major Vessels (0–3)", options=[0, 1, 2, 3])
+    Major_Vessels = st.selectbox("🩸 Number of Major Vessels (0–3)", options=[0, 1, 2, 3])
 with c3:
     Chest_Pain_Type = st.selectbox("🩸 Chest Pain Type", options=[0, 1, 2, 3])
     Max_Heart_Rate = st.number_input("🩸 Max Heart Rate Achieved", min_value=60, max_value=220, value=150)
     Thalassemia = st.selectbox("🩸 Thalassemia", options=[0, 1, 2, 3])
 with c4:
-   Resting_Blood_Pressure = st.number_input("🩸 Resting Blood Pressure", min_value=80, max_value=220, value=120)
-    Exercise_Induced_Angina= st.selectbox("🩸 Exercise Induced Angina", options=[0, 1], format_func=lambda x: "Yes" if x == 1 else "No")
-    ST_Depression= st.number_input("🩸 ST Depression (Oldpeak)", min_value=0.0, max_value=10.0, value=1.0, step=0.1)
+    Resting_Blood_Pressure = st.number_input("🩸 Resting Blood Pressure", min_value=80, max_value=220, value=120)
+    Exercise_Induced_Angina = st.selectbox("🩸 Exercise Induced Angina", options=[0, 1], format_func=lambda x: "Yes" if x == 1 else "No")
+    ST_Depression = st.number_input("🩸 ST Depression (Oldpeak)", min_value=0.0, max_value=10.0, value=1.0, step=0.1)
 
 Cholesterol_Level = st.number_input("🩸 Serum Cholesterol (mg/dl)", min_value=100, max_value=600, value=200)
 
@@ -345,21 +326,20 @@ st.markdown('<div class="result-section">', unsafe_allow_html=True)
 
 if predict_clicked:
     input_dict = {
-    "Age": Age,
-    "Gender": Gender,
-    "Chest_Pain_Type": Chest_Pain_Type,
-    "Resting_Blood_Pressure": Resting_Blood_Pressure,
-    "Cholesterol_Level": Cholesterol_Level,
-    "Fasting_Blood_Sugar": Fasting_Blood_Sugar,
-    "Resting_ECG_Result": Resting_ECG_Result,
-    "Max_Heart_Rate": Max_Heart_Rate,
-    "Exercise_Induced_Angina": Exercise_Induced_Angina,
-    "ST_Depression": ST_Depression,
-    "ST_Slope": ST_Slope,
-    "Major_Vessels": Major_Vessels,
-    "Thalassemia": Thalassemia,
-    "Heart_Disease": Heart_Disease
-}
+        "Age": Age,
+        "Gender": Gender,
+        "Chest_Pain_Type": Chest_Pain_Type,
+        "Resting_Blood_Pressure": Resting_Blood_Pressure,
+        "Cholesterol_Level": Cholesterol_Level,
+        "Fasting_Blood_Sugar": Fasting_Blood_Sugar,
+        "Resting_ECG_Result": Resting_ECG_Result,
+        "Max_Heart_Rate": Max_Heart_Rate,
+        "Exercise_Induced_Angina": Exercise_Induced_Angina,
+        "ST_Depression": ST_Depression,
+        "ST_Slope": ST_Slope,
+        "Major_Vessels": Major_Vessels,
+        "Thalassemia": Thalassemia,
+    }
 
     input_df = pd.DataFrame([input_dict])
     input_df = input_df.reindex(columns=model_columns, fill_value=0)
